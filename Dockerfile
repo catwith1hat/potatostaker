@@ -7,7 +7,7 @@ WORKDIR /site
 RUN gem install webrick --no-document
 
 # This project is static HTML/CSS/JS, so copy only runtime assets.
-COPY index.html styles.css script.js logo.png .nojekyll ./
+COPY index.html styles.css script.js logo.jpg .nojekyll ./
 
 EXPOSE 4000
 
