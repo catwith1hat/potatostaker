@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Potato Staker demonstrates practical, low-cost Ethereum staking hardware builds and client configurations.">
+  <title>Potato Staker | Low-Cost Ethereum Staking Builds</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="topbar section-wrap">
+    <a class="brand" href="#top" aria-label="Potato Staker home">
+      <span class="brand-mark">PS</span>
+      <span>Potato Staker</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#leaderboard">Builds</a>
+      <a href="#parts">Parts</a>
+      <a href="#clients">Clients</a>
+      <a href="#configs">Configs</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-wrap reveal">
+      <div class="hero-copy">
+        <p class="eyebrow">Ethereum staking without overbuying hardware</p>
+        <h1>Potato Staker</h1>
+        <p class="lead">
+          A practical catalog of low-cost Ethereum staking builds, real client combinations,
+          and tested storage footprints. Goal: keep staking cap.ex. low and reliability high.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#leaderboard">See Cheapest Builds</a>
+          <a class="button ghost" href="#configs">Copy Starter Configs</a>
+        </div>
+        <div class="hero-stats" role="list" aria-label="Key metrics">
+          <article role="listitem" class="stat">
+            <h2>$222</h2>
+            <p>Lowest submitted hardware cost</p>
+          </article>
+          <article role="listitem" class="stat">
+            <h2>16 GB</h2>
+            <p>Confirmed viable with light clients</p>
+          </article>
+          <article role="listitem" class="stat">
+            <h2>557 GB</h2>
+            <p>Ethrex + Lodestar disk footprint</p>
+          </article>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <figure class="hero-logo-wrap">
+          <img class="hero-logo" src="logo.png" alt="Potato Staker logo">
+        </figure>
+        <h2>Reality Check</h2>
+        <ul>
+          <li>Not every validator setup needs server-grade hardware.</li>
+          <li>1 TB NVMe can work with pruning and lightweight clients.</li>
+          <li>Nimbus and Lodestar are popular low-resource CL picks.</li>
+        </ul>
+        <p class="small-note">Use redundancy, alerts, and backups if you choose ultra-budget hardware.</p>
+      </aside>
+    </section>
+
+    <section class="section-wrap reveal" id="leaderboard">
+      <div class="section-head">
+        <p class="eyebrow">Cheapest first</p>
+        <h2>Build Leaderboard</h2>
+      </div>
+      <div class="filters" aria-label="Build filters">
+        <label for="budgetRange">
+          Max budget: <strong id="budgetValue">$600</strong>
+        </label>
+        <input id="budgetRange" type="range" min="200" max="1000" step="25" value="600">
+
+        <label for="statusFilter">Readiness</label>
+        <select id="statusFilter">
+          <option value="all">All</option>
+          <option value="ready">Ready now</option>
+          <option value="verify">Needs verification</option>
+          <option value="reference">Reference only</option>
+        </select>
+      </div>
+      <div id="buildGrid" class="build-grid" aria-live="polite"></div>
+      <p class="disclaimer">Prices are rough snapshots and should be re-checked before buying.</p>
+    </section>
+
+    <section class="section-wrap reveal" id="parts">
+      <div class="section-head">
+        <p class="eyebrow">Practical shopping list</p>
+        <h2>Hardware Purchases That Matter</h2>
+      </div>
+      <div class="parts-grid">
+        <article class="part-card">
+          <h3>CPU / Host</h3>
+          <p>Intel N100 mini-PC or similar low-power desktop</p>
+          <p class="part-cost">$180-$350</p>
+          <p class="part-tip">Prioritize stable thermals and a known-good board vendor.</p>
+        </article>
+        <article class="part-card">
+          <h3>RAM</h3>
+          <p>16 GB minimum for one lightweight combo, 32 GB safer headroom</p>
+          <p class="part-cost">$35-$90</p>
+          <p class="part-tip">Memory pressure causes missed duties before CPU does.</p>
+        </article>
+        <article class="part-card">
+          <h3>NVMe SSD</h3>
+          <p>1 TB minimum, TLC preferred, avoid unknown controllers</p>
+          <p class="part-cost">$55-$110</p>
+          <p class="part-tip">Drive quality is usually more important than peak throughput.</p>
+        </article>
+        <article class="part-card">
+          <h3>Power / Network</h3>
+          <p>Small UPS and reliable wired ethernet</p>
+          <p class="part-cost">$70-$200</p>
+          <p class="part-tip">Power stability and uptime discipline improve rewards consistency.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-wrap reveal" id="clients">
+      <div class="section-head">
+        <p class="eyebrow">Resource-aware client pairs</p>
+        <h2>Client Combo Cheat Sheet</h2>
+      </div>
+      <div class="combo-grid">
+        <article class="combo-card">
+          <h3>Ethrex + Nimbus</h3>
+          <p><strong>Disk:</strong> ~627 GB observed</p>
+          <p><strong>RAM profile:</strong> Light</p>
+          <p><strong>Fit:</strong> Great for 1 TB + 16 GB experiments</p>
+        </article>
+        <article class="combo-card">
+          <h3>Ethrex + Lodestar</h3>
+          <p><strong>Disk:</strong> ~557 GB observed</p>
+          <p><strong>RAM profile:</strong> Light</p>
+          <p><strong>Fit:</strong> Lowest reported storage footprint in this dataset</p>
+        </article>
+        <article class="combo-card">
+          <h3>Nimbus + Besu</h3>
+          <p><strong>Disk:</strong> 1 TB feasible with tuning</p>
+          <p><strong>RAM profile:</strong> Light-Medium</p>
+          <p><strong>Fit:</strong> Proven on 16 GB for backup-node usage</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-wrap reveal" id="configs">
+      <div class="section-head">
+        <p class="eyebrow">Starter templates</p>
+        <h2>Practical Client Configuration</h2>
+      </div>
+      <div class="config-grid">
+        <article class="config-card">
+          <h3>Nimbus (CL)</h3>
+          <pre><code># one-time sync
+nimbus_beacon_node trustedNodeSync \
+  --trusted-node-url=https://checkpoint-sync.&lt;network&gt;.ethpandaops.io/ \
+  --backfill=false
+
+# regular run
+nimbus_beacon_node \
+  --history=prune</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Prysm Beacon (CL)</h3>
+          <pre><code>beacon-chain \
+  --checkpoint-sync-url=https://beaconstate-&lt;network&gt;.chainsafe.io \
+  --beacon-db-pruning</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Lodestar (CL)</h3>
+          <pre><code>lodestar beacon \
+  --checkpointSyncUrl=https://beaconstate-&lt;network&gt;.chainsafe.io \
+  --serveHistoricalState
+# Note: no explicit prune/history flag in current nixfiles.</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Besu (EL)</h3>
+          <pre><code>besu \
+  --sync-mode=CHECKPOINT \
+  --data-storage-format=BONSAI \
+  --history-expiry-prune</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Nethermind (EL)</h3>
+          <pre><code>nethermind \
+  --Pruning.Mode=Hybrid \
+  --Pruning.FullPruningMemoryBudgetMb=16384 \
+  --History.Pruning=Rolling \
+  --Init.StateDbKeyScheme=HalfPath</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Erigon (EL)</h3>
+          <pre><code>erigon \
+  --prune.mode=full</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Geth (EL)</h3>
+          <pre><code>geth \
+  --syncmode=snap</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Ethrex (EL)</h3>
+          <pre><code>ethrex \
+  --syncmode=snap</code></pre>
+        </article>
+        <article class="config-card">
+          <h3>Reth (EL)</h3>
+          <pre><code>reth node \
+  --full</code></pre>
+        </article>
+      </div>
+      <p class="small-note">
+        These recommendations are pulled from your current <code>nixfiles/*.nix</code>. Validate flags against your exact client version before production deployment.
+      </p>
+    </section>
+
+    <section class="section-wrap reveal" id="sources">
+      <div class="section-head">
+        <p class="eyebrow">Input references</p>
+        <h2>Source Links</h2>
+      </div>
+      <ul class="source-list">
+        <li><a href="https://www.reddit.com/r/ethstaker/comments/1r44js5/hardware_check_before_buying/" target="_blank" rel="noopener noreferrer">Reddit hardware budget discussion</a></li>
+        <li><a href="https://pcpartpicker.com/list/NByYck" target="_blank" rel="noopener noreferrer">$377 PCPartPicker build</a></li>
+        <li><a href="https://aliexpress.us/item/3256810016234285.html" target="_blank" rel="noopener noreferrer">$222 mini-PC listing (SSD specs must be verified)</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="section-wrap footer">
+    <p>Potato Staker is a community demo for low-cost Ethereum staking hardware and operations.</p>
+  </footer>
+</body>
+</html>
